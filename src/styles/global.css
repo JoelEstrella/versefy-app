@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-floatIn {
+  animation: floatIn 3s ease-out both;
+}

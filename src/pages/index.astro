@@ -1,0 +1,118 @@
+---
+import "../styles/global.css";
+import verses from '../data/verses.json';
+
+const verse = verses[Math.floor(Math.random() * verses.length)];
+---
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Versículo aleatorio</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="min-h-screen m-0 font-['Poppins',system-ui]
+           text-white/90 overflow-hidden
+          bg-gradient-to-br from-slate-900 to-slate-950
+           "
+  >
+
+<canvas
+  id="particles"
+  class="fixed inset-0 z-0 pointer-events-none"
+></canvas>
+
+    <!-- Center card -->
+<main class="relative z-10 flex min-h-screen items-center justify-center">
+<article class="text-center animate-floatIn px-12">
+
+         <h1 class="mb-4 font-light leading-tight text-[clamp(20px,3.6vw,36px)]">
+    {verse.text}
+  </h1>
+
+  <p class="font-semibold opacity-90">
+    {verse.ref}
+  </p>
+
+      </article>
+    </main>
+
+    <!-- Footer -->
+<footer
+  class="fixed right-4 bottom-4 z-20
+         flex items-center gap-3"
+>
+
+  <img
+    src="/images/noche_juvenil.svg"
+    alt="Icono"
+    class="h-6 w-auto opacity-80"
+  />
+  <img
+    src="/images/logo_fjc.png"
+    alt="Logo"
+    class="h-5 w-auto opacity-80"
+  />
+
+
+</footer>
+
+
+<script>
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+
+  let particles = [];
+  const count = 60;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  function createParticles() {
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.8 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      a: Math.random() * 0.5 + 0.3
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(255,255,255,${p.a})`;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  createParticles();
+  draw();
+</script>
+
+
+
+  </body>
+</html>
