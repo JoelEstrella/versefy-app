@@ -1,8 +1,5 @@
 ---
 import "../styles/global.css";
-import verses from '../data/verses.json';
-
-const verse = verses[Math.floor(Math.random() * verses.length)];
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -34,13 +31,8 @@ const verse = verses[Math.floor(Math.random() * verses.length)];
 <main class="relative z-10 flex min-h-screen items-center justify-center">
 <article class="text-center animate-floatIn px-12">
 
-         <h1 class="mb-4 font-light leading-tight text-[clamp(20px,3.6vw,36px)]">
-    {verse.text}
-  </h1>
-
-  <p class="font-semibold opacity-90">
-    {verse.ref}
-  </p>
+      <h1 id="verse-text" style="font-weight:300;font-size:clamp(20px,3.6vw,36px)"></h1>
+      <p id="verse-ref" style="opacity:.9;font-weight:600"></p>
 
       </article>
     </main>
@@ -64,6 +56,28 @@ const verse = verses[Math.floor(Math.random() * verses.length)];
 
 
 </footer>
+
+
+<script>
+
+ async function cargarVersos() {
+
+   const res = await fetch('/data/verses.json');
+      const verses = await res.json();
+      console.log("Versos:", verses)
+
+      const i = Math.floor(Math.random() * verses.length);
+      const v = verses[i];
+
+      document.getElementById('verse-text').textContent = v.text;
+      document.getElementById('verse-ref').textContent  = v.ref;
+
+
+ }
+
+  document.addEventListener('DOMContentLoaded', cargarVersos);
+
+</script>
 
 
 <script>
